@@ -2,6 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Protap Clothes</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
 <style>
 :root{--bg:#0b0a09;--ink:#f3ede0;--mut:rgba(243,237,224,.66);--gold:#c8aa6e;--line:rgba(243,237,224,.16);--glass:rgba(243,237,224,.08);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -125,7 +126,7 @@ function home(){app.innerHTML=`<main><section class="sec"><div class="row"><div 
 const app=$('#app'),cur=$('#cur'),ERR='<main class="page"><h1 class="big">Something went wrong</h1><p style="margin-top:20px"><a class="btn" href="#shop">Back to collection</a></p></main>';
 function navbar(){const n=cart().reduce((a,b)=>a+b.q,0),h=location.hash.slice(1);
  const L=[['home','Home'],['shop','Collection'],['orders','Orders'],['contact','Contact']].concat(ADMIN?[['admin','Admin']]:[]).map(([k,t])=>`<a class="${h==k?'on':''} ${k=='home'||k=='orders'?'h':''}" href="#${k}">${t}</a>`).join('');
- return `<nav><a class="logo" href="#home">Protap<i> ✦ </i>Clothes</a><div class="links">${L}<a href="#cart">Cart<span class="badge">${n}</span></a><a class="h" id="lo">Logout</a></div></nav>`}
+ return `<nav><a class="logo" href="#home" style="display:flex;align-items:center;gap:10px"><img src="logo.png" alt="" style="height:34px;width:auto">Protap<i> ✦ </i>Clothes</a><div class="links">${L}<a href="#cart">Cart<span class="badge">${n}</span></a><a class="h" id="lo">Logout</a></div></nav>`}
 function mountNav(){app.insertAdjacentHTML('afterbegin',navbar());$('#lo').onclick=async()=>{await sb.auth.signOut();await refreshUser(null);location.hash='login'}}
 function go(){const h=location.hash.slice(1)||'home';
  if(!U&&h!=='login'){location.hash='login';return}if(U&&h==='login'){location.hash='home';return}
@@ -137,7 +138,7 @@ function go(){const h=location.hash.slice(1)||'home';
 addEventListener('hashchange',go);
 /* ---------- pages ---------- */
 function login(){let mode='in';
- const draw=()=>{app.innerHTML=`<div class="auth"><div class="glass"><div class="logo" style="text-align:center;font-size:30px">Protap<i> ✦ </i>Clothes</div><p style="text-align:center;color:var(--mut);margin:6px 0 20px">Please sign in to enter the store</p>
+ const draw=()=>{app.innerHTML=`<div class="auth"><div class="glass"><img src="logo.png" alt="" style="display:block;height:84px;width:auto;margin:0 auto 12px"><div class="logo" style="text-align:center;font-size:30px">Protap<i> ✦ </i>Clothes</div><p style="text-align:center;color:var(--mut);margin:6px 0 20px">Please sign in to enter the store</p>
  <div class="tabs"><span class="${mode!='up'?'on':''}" data-m="in">Sign in</span><span class="${mode=='up'?'on':''}" data-m="up">Create account</span></div>
  ${mode=='up'?'<label>Full name</label><input id="n">':''}<label>Email</label><input id="e" type="email">${mode=='forgot'?'':'<label>Password</label><input id="p" type="password">'}
  <div class="err" id="er"></div><button class="btn" style="width:100%;justify-content:center;margin-top:8px" id="ok">${mode=='in'?'Sign in':mode=='up'?'Create account':'Send reset link'}</button>${mode=='in'?'<p style="text-align:center;margin-top:14px"><a id="fg" style="color:var(--mut);font-size:13px">Forgot password?</a></p>':''}</div></div>`;
