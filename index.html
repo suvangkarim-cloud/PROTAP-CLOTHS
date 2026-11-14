@@ -59,6 +59,15 @@ input,textarea,select{width:100%;background:rgba(0,0,0,.35);border:1px solid var
 .cur i:nth-child(2){transition-delay:.05s}.cur i:nth-child(3){transition-delay:.1s}.cur i:nth-child(4){transition-delay:.15s}.cur i:nth-child(5){transition-delay:.2s}.cur i:nth-child(6){transition-delay:.25s}
 footer{text-align:center;padding:30px;color:var(--mut);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
 @media(max-width:820px){.split{grid-template-columns:1fr}.links a.h{display:none}.view{height:56vh}}
+.acts{display:none}.mb{background:none;border:1px solid var(--line);color:var(--ink);font-size:22px;width:44px;height:44px;border-radius:4px;cursor:pointer;line-height:1}.mcart{font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:820px){
+ nav{flex-wrap:wrap;padding:8px 16px;max-height:100svh;overflow-y:auto}
+ nav .logo{font-size:18px;letter-spacing:.08em}nav .logo img{height:28px!important}
+ .acts{display:flex;align-items:center;gap:16px}
+ nav .links{display:none;width:100%;flex-direction:column;align-items:stretch;gap:0;padding:6px 0 10px}
+ nav.open .links{display:flex}
+ nav .links a,nav .links a.h{display:block!important;padding:15px 4px;border-top:1px solid var(--line);font-size:14px}
+}
 </style></head><body>
 <div id="bg"><video id="vid" muted playsinline preload="auto" src="hero.mp4"></video></div>
 <div class="cur" id="cur"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -129,8 +138,8 @@ function home(){app.innerHTML=`<main><section class="sec"><div class="row"><div 
 const app=$('#app'),cur=$('#cur'),ERR='<main class="page"><h1 class="big">Something went wrong</h1><p style="margin-top:20px"><a class="btn" href="#shop">Back to collection</a></p></main>';
 function navbar(){const n=cart().reduce((a,b)=>a+b.q,0),h=location.hash.slice(1);
  const L=[['home','Home'],['shop','Collection']].concat(U?[['orders','Orders']]:[]).concat([['contact','Contact']]).concat(ADMIN?[['admin','Admin<span class="badge" id="nb" style="display:none"></span>']]:[]).map(([k,t])=>`<a class="${h==k?'on':''} ${k=='home'||k=='orders'?'h':''}" href="#${k}">${t}</a>`).join('');
- return `<nav><a class="logo" href="#home" style="display:flex;align-items:center;gap:10px"><img src="logo.png" alt="" style="height:34px;width:auto">Protap<i> ✦ </i>Clothes</a><div class="links">${L}<a href="#cart">Cart<span class="badge">${n}</span></a>${U?'<a class="h" id="lo">Logout</a>':'<a href="#login" style="color:var(--gold)">Login</a>'}</div></nav>`}
-function mountNav(){app.insertAdjacentHTML('afterbegin',navbar());const lo=$('#lo');if(lo)lo.onclick=async()=>{await sb.auth.signOut();await refreshUser(null);location.hash='home';go()};
+ return `<nav><a class="logo" href="#home" style="display:flex;align-items:center;gap:10px"><img src="logo.png" alt="" style="height:34px;width:auto">Protap<i> ✦ </i>Clothes</a><div class="acts"><a class="mcart" href="#cart">Cart<span class="badge">${n}</span></a><button class="mb" id="mb" aria-label="Menu">☰</button></div><div class="links">${L}<a href="#cart">Cart<span class="badge">${n}</span></a>${U?'<a class="h" id="lo">Logout</a>':'<a href="#login" style="color:var(--gold)">Login</a>'}</div></nav>`}
+function mountNav(){app.insertAdjacentHTML('afterbegin',navbar());const lo=$('#lo'),mb=$('#mb'),nv=$('nav');if(mb)mb.onclick=()=>{nv.classList.toggle('open');mb.textContent=nv.classList.contains('open')?'✕':'☰'};document.querySelectorAll('nav .links a').forEach(a=>a.addEventListener('click',()=>nv.classList.remove('open')));if(lo)lo.onclick=async()=>{await sb.auth.signOut();await refreshUser(null);location.hash='home';go()};
  if(ADMIN)sb.from('orders').select('id',{count:'exact',head:true}).eq('status','Pending').then(r=>{const c=r&&r.count;document.title=(c?'('+c+') ':'')+SHOP;const b=$('#nb');if(c&&b){b.textContent=c;b.style.display=''}})}
 const PUB=['home','shop','cart','contact','policy','privacy','login'];
 function go(){const h=location.hash.slice(1)||'home',pub=PUB.includes(h)||/^product-\d+$/.test(h);
