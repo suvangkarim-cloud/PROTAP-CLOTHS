@@ -95,3 +95,7 @@ Stock (মজুদ) গোনা, স্বয়ংক্রিয় payment,
 2. সাইটে Admin পেজের একদম উপরে **Payment and contact numbers** অংশে bKash নম্বর, Nagad নম্বর আর দোকানের ফোন বসিয়ে **Save numbers** চাপুন। যখন খুশি বদলাতে পারবেন, কোড ছুঁতে হবে না।
 3. কোনো নম্বর ফাঁকা রাখলে সেই পদ্ধতি customer-কে দেখানো হয় না।
 4. `update-3.sql` চালানোর পর থেকে সাইট এই নম্বরগুলো database থেকে নেয়। `index.html`-এ বসানো `BKASH`, `NAGAD`, `PHONE` তখন আর কাজ করে না, তাই আগে সেখানে নম্বর বসিয়ে থাকলে Admin-এ আবার একবার বসিয়ে নিন।
+
+**দোকানের email-ও Admin থেকে বদলানো যায়।** Admin পেজের **Payment and contact numbers** অংশে "Shop email" ঘরে নতুন email বসিয়ে Save করুন। এটা Contact পেজের "Our email" ঘরে, পেজের নিচের footer-এ আর policy পেজে দেখায়। Customer ওই ঘরে শুধু দেখতে পায়, বদলাতে পারে না, আর database-এ বদলানোর অনুমতি শুধু মালিকের account-এর। এর জন্য নতুন কোনো SQL লাগে না, `update-3.sql` চালানো থাকলেই হবে।
+
+**Contact পেজের message email-এ যায় না।** Customer "Send message" চাপলে লেখাটা Admin পেজের **Messages** অংশে জমা হয়। সেখানে নিয়মিত দেখতে হবে।
